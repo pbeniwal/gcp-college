@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Registrations | Karnavati University</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f8ff; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h1 { color: #4285f4; text-align: center; }
+        .search-form { margin-bottom: 30px; display: flex; gap: 15px; flex-wrap: wrap; }
+        input { padding: 12px; width: 300px; border: 1px solid #ddd; border-radius: 8px; }
+        button { padding: 12px 24px; background: #4285f4; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; }
+        .back-btn { background: #34a853; padding: 12px 24px; color: white; text-decoration: none; border-radius: 8px; display: inline-block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 All Event Registrations</h1>
+
+        <!-- Search Form -->
+        <form class="search-form" method="GET">
+            <input type="text" name="event" placeholder="Search by Event Name" value="{{ event_filter }}">
+            <input type="email" name="email" placeholder="Search by Email Address" value="{{ email_filter }}">
+            <button type="submit">Search</button>
+            <a href="/view-registrations" style="color:#4285f4; margin-left:10px; line-height:44px;">Clear Filters</a>
+        </form>
+
+        <!-- Results Table -->
+        {% if registrations %}
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Event</th>
+                <th>Email</th>
+                <th>Timestamp</th>
+            </tr>
+            {% for reg in registrations %}
+            <tr>
+                <td>{{ reg.name }}</td>
+                <td>{{ reg.event }}</td>
+                <td>{{ reg.email }}</td>
+                <td>{{ reg.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p style="text-align:center; color:#666; margin-top:30px;">No registrations found.</p>
+        {% endif %}
+
+        <a href="/" class="back-btn">← Back to Registration Form</a>
+    </div>
+</body>
+</html>
