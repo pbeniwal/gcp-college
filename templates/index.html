@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Event Registration</title>
+    <title>College Event Registration | Karnavati University</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
             background: linear-gradient(135deg, #f0f8ff, #e6f0ff);
@@ -30,13 +26,17 @@
         .header {
             background: #4285f4;
             color: white;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
+        }
+        .logo {
+            max-height: 80px;
+            margin-bottom: 10px;
         }
         .header h1 {
             font-size: 24px;
         }
-        .form-container {
+        .form-container, .success-container {
             padding: 30px;
         }
         label {
@@ -77,11 +77,15 @@
         .success {
             background: #e6f4ea;
             color: #137333;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
-            margin: 20px 30px;
             text-align: center;
             font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .back-btn {
+            background: #34a853;
+            margin-top: 15px;
         }
         .footer {
             text-align: center;
@@ -94,38 +98,49 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
+        <!-- Header with Logo -->
         <div class="header">
-            <h1>🎟️ College Event Registration</h1>
+            <img src="https://karnavatiuniversity.edu.in/wp-content/uploads/2023/06/KU-Logo.png" 
+                 alt="Karnavati University Logo" class="logo">
+            <h1>🎟️ Event Registration</h1>
         </div>
 
-        <!-- Form or Success Message -->
+        <!-- Success Message -->
+        {% if success %}
+        <div class="success-container">
+            <div class="success">
+                ✅ Registration Successful!<br><br>
+                <strong>{{ name }}</strong>, you are now registered for <strong>{{ event }}</strong>.<br>
+                Confirmation details have been sent to: <strong>{{ email }}</strong>
+            </div>
+            
+            <!-- Back to Registration Button -->
+            <button class="back-btn" onclick="window.location.reload();">
+                Register for Another Event
+            </button>
+        </div>
+        {% else %}
+        
+        <!-- Registration Form -->
         <div class="form-container">
-            {% if success %}
-                <div class="success">
-                    ✅ Registration Successful!<br><br>
-                    <strong>{{ name }}</strong>, you are now registered for <strong>{{ event }}</strong>.<br>
-                    Confirmation details will be sent to: <strong>{{ email }}</strong>
-                </div>
-            {% else %}
-                <form method="POST">
-                    <label>Full Name</label>
-                    <input type="text" name="name" placeholder="Enter your full name" required>
+            <form method="POST">
+                <label>Full Name</label>
+                <input type="text" name="name" placeholder="Enter your full name" required>
 
-                    <label>Event Name</label>
-                    <input type="text" name="event" placeholder="e.g., Tech Fest 2026" required>
+                <label>Event Name</label>
+                <input type="text" name="event" placeholder="e.g., Tech Fest 2026" required>
 
-                    <label>Email Address</label>
-                    <input type="email" name="email" placeholder="yourname@example.com" required>
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="yourname@example.com" required>
 
-                    <button type="submit">Register Now</button>
-                </form>
-            {% endif %}
+                <button type="submit">Register Now</button>
+            </form>
         </div>
+        {% endif %}
 
         <!-- Footer -->
         <div class="footer">
-            Powered by Google Cloud • Karnavati University
+            Powered by Google Cloud • Karnavati University, Gandhinagar
         </div>
     </div>
 </body>
