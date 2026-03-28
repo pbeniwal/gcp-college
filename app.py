@@ -11,7 +11,7 @@ firebase_admin.initialize_app()
 db = firestore.client()
 publisher = pubsub_v1.PublisherClient()
 
-PROJECT_ID = os.getenv("PROJECT_ID", "campus-gcp-2026")  # Change if needed
+PROJECT_ID = os.getenv("PROJECT_ID", "smart-processor-489814-r7")  # Change if needed
 TOPIC_ID = "event-registrations"
 topic_path = publisher.topic_path(PROJECT_ID, TOPIC_ID)
 
@@ -27,10 +27,12 @@ def index():
             'event': event,
             'timestamp': firestore.SERVER_TIMESTAMP
         })
+        print(f"Saved registration to Firestore: {name} for {event}")
         
         # Publish to Pub/Sub
         message = f"🎟️ New registration: {name} for {event}".encode('utf-8')
         publisher.publish(topic_path, data=message)
+        print(f"Published message to {TOPIC_ID}: {message.decode('utf-8')}")
         
         return render_template('index.html', success=True, name=name, event=event)
     

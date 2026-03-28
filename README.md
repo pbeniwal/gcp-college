@@ -1,29 +1,17 @@
-# Serverless College Event Notification App 
+# Serverless College Event Notification App - Project 3 (Full CI/CD + Terraform)
 
-**Course**: Google Cloud Digital Leader  
-**Services Used**: Cloud Run, Firestore, Pub/Sub, Cloud Build (CI/CD)  
-**Objective**: Infrastructure & application modernization + Operational excellence (Modules 4 & 6)
+**Google Cloud Digital Leader Capstone**  
+**Services**: Cloud Run, Firestore, Pub/Sub, Cloud Build (CI/CD), Terraform (IaC)
 
-## Architecture
-- Frontend: Flask web app (HTML form)
-- Database: Firestore (NoSQL)
-- Messaging: Pub/Sub (real-time notifications)
-- Hosting: Cloud Run (serverless)
-- CI/CD: Google Cloud Build
+## 🚀 CI/CD Flow (Automatic on every `git push`)
+1. Push code to `main` → GitHub triggers Cloud Build
+2. Terraform runs → Updates Firestore + Pub/Sub + IAM
+3. Docker image built & pushed
+4. Cloud Run service updated with new revision
 
-## Local Setup
-1. `pip install -r requirements.txt`
-2. `python app.py`
+## One-time Setup (Do this before first push)
 
-## CI/CD with Google Cloud Build (Google DevOps)
-- Every push to `main` automatically builds Docker image and deploys to Cloud Run.
-- See `cloudbuild.yaml`
-
-## Deployment Steps (One-time)
-1. Create Firestore database (Native mode, asia-south1)
-2. Create Pub/Sub topic: `event-registrations`
-3. Enable Cloud Build, Cloud Run, Firestore, Pub/Sub APIs
-4. Connect this GitHub repo to Cloud Build (Triggers → Create Trigger)
-5. Push code → CI/CD runs automatically
-
-Live Demo URL will appear after first successful build.
+1. **Create Terraform State Bucket** (manual, one time)
+   ```bash
+   gsutil mb -l asia-south1 gs://terraform-state-YOUR_PROJECT_ID
+   gsutil versioning set on gs://terraform-state-YOUR_PROJECT_ID
