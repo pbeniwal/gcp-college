@@ -54,7 +54,8 @@ steps:
       - '--region=asia-south1'
       - '--member=allUsers'
       - '--role=roles/run.invoker'
-      
+
+     
 images:
   - 'gcr.io/$PROJECT_ID/event-app:$COMMIT_SHA'
 
