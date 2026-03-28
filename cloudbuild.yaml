@@ -3,15 +3,11 @@ steps:
   - name: 'hashicorp/terraform:1.5.0'
     id: 'terraform-init'
     dir: 'terraform'
-    env:
-      - 'TF_IN_AUTOMATION=true'
     args: ['init']
 
   - name: 'hashicorp/terraform:1.5.0'
     id: 'terraform-apply'
     dir: 'terraform'
-    env:
-      - 'TF_IN_AUTOMATION=true'
     args: ['apply', '-auto-approve']
 
   # Step 2: Build Docker image for the application
@@ -43,19 +39,6 @@ steps:
       - '--service-account'
       - 'event-app-cloud-run@${PROJECT_ID}.iam.gserviceaccount.com'
 
-  # === NEW STEP: Force the service to be PUBLIC (this fixes the authentication issue) ===
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: 'make-public'
-    args:
-      - 'run'
-      - 'services'
-      - 'add-iam-policy-binding'
-      - 'event-app'
-      - '--region=asia-south1'
-      - '--member=allUsers'
-      - '--role=roles/run.invoker'
-
-     
 images:
   - 'gcr.io/$PROJECT_ID/event-app:$COMMIT_SHA'
 
