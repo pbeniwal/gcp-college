@@ -51,5 +51,37 @@ def index():
     
     return render_template('index.html')
 
+# ==================== NEW: VIEW REGISTRATIONS PAGE ====================
+@app.route('/view-registrations', methods=['GET'])
+def view_registrations():
+    event_filter = request.args.get('event', '').strip()
+    email_filter = request.args.get('email', '').strip()
+
+    registrations = []
+
+    # Query Firestore
+    query = db.collection('registrations')
+
+    if event_filter:
+        query = query.where('event', '==', event_filter)
+    elif email_filter:
+        query = query.where('email', '==', email_filter)
+
+    docs = query.order_by('timestamp', direction=firestore.Query.DESCENDING).stream()
+
+    for doc in docs:
+        data = doc.to_dict()
+        registrations.append({
+            'name': data.get('name', ''),
+            'event': data.get('event', ''),
+            'email': data.get('email', ''),
+            'timestamp': data.get('timestamp')
+        })
+
+    return render_template('view_registrations.html', 
+                           registrations=registrations,
+                           event_filter=event_filter,
+                           email_filter=email_filter)
+                           
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=False)
