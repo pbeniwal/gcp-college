@@ -1,4 +1,4 @@
-# Serverless College Event Notification App - Project 3 (Full CI/CD + Terraform)
+# Serverless College Event Registration App (Full CI/CD + Terraform)
 
 **Google Cloud Digital Leader Capstone**  
 **Services**: Cloud Run, Firestore, Pub/Sub, Cloud Build (CI/CD), Terraform (IaC)
