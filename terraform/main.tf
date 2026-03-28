@@ -71,6 +71,14 @@ resource "google_project_iam_member" "pubsub_subscriber" {
   member  = "serviceAccount:${google_service_account.cloud_run_sa.email}"
 }
 
+resource "google_cloud_run_service_iam_member" "event_app_public" {
+  location = var.region
+  project  = var.project_id
+  service  = "event-app"
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
+
 # Optional: Cloud Run Service (can be deployed via Terraform too)
 # (Comment out if you prefer Cloud Build deployment)
 # resource "google_cloud_run_service" "event_app" {
