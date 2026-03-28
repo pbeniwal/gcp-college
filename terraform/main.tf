@@ -20,37 +20,37 @@ resource "google_project_service" "iam" {
 }
 
 # Firestore Database (Native mode)
-resource "google_firestore_database" "default" {
-  depends_on = [google_project_service.firestore]
+#resource "google_firestore_database" "default" {
+#  depends_on = [google_project_service.firestore]
 
-  project     = var.project_id
-  name        = "(default)"
-  location_id = var.region
-  type        = "FIRESTORE_NATIVE"
+#  project     = var.project_id
+#  name        = "(default)"
+#  location_id = var.region
+#  type        = "FIRESTORE_NATIVE"
 
-  delete_protection_state = "DELETE_PROTECTION_DISABLED"  # For student project
-}
+#  delete_protection_state = "DELETE_PROTECTION_DISABLED"  # For student project
+#}
 
 # Pub/Sub Topic
-resource "google_pubsub_topic" "event_registrations" {
-  depends_on = [google_project_service.pubsub]
-  name       = "event-registrations"
-}
+#resource "google_pubsub_topic" "event_registrations" {
+#  depends_on = [google_project_service.pubsub]
+#  name       = "event-registrations"
+#}
 
 # Pub/Sub Subscription (pull-based)
-resource "google_pubsub_subscription" "event_registrations_sub" {
-  depends_on = [google_pubsub_topic.event_registrations]
-  name       = "event-registrations-sub"
-  topic      = google_pubsub_topic.event_registrations.name
+#resource "google_pubsub_subscription" "event_registrations_sub" {
+#  depends_on = [google_pubsub_topic.event_registrations]
+#  name       = "event-registrations-sub"
+#  topic      = google_pubsub_topic.event_registrations.name
 
-  ack_deadline_seconds = 20
-}
+#  ack_deadline_seconds = 20
+#}
 
 # Service Account for Cloud Run (least privilege)
-resource "google_service_account" "cloud_run_sa" {
-  account_id   = "event-app-cloud-run"
-  display_name = "Service Account for Event App Cloud Run"
-}
+#resource "google_service_account" "cloud_run_sa" {
+#  account_id   = "event-app-cloud-run"
+#  display_name = "Service Account for Event App Cloud Run"
+#}
 
 # IAM Roles for Cloud Run SA
 resource "google_project_iam_member" "firestore_access" {
