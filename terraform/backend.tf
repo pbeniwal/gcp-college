@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "terraform-state-${var.project_id}"   # Will be created manually once
+    bucket = "terraform-state-smart-processor-489814-r7" 
     prefix = "event-app"
   }
 }
