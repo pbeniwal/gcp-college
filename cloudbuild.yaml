@@ -43,6 +43,18 @@ steps:
       - '--service-account'
       - 'event-app-cloud-run@${PROJECT_ID}.iam.gserviceaccount.com'
 
+  # === NEW STEP: Force the service to be PUBLIC (this fixes the authentication issue) ===
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'make-public'
+    args:
+      - 'run'
+      - 'services'
+      - 'add-iam-policy-binding'
+      - 'event-app'
+      - '--region=asia-south1'
+      - '--member=allUsers'
+      - '--role=roles/run.invoker'
+      
 images:
   - 'gcr.io/$PROJECT_ID/event-app:$COMMIT_SHA'
 
