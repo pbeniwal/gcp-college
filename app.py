@@ -45,7 +45,7 @@ def index():
             topic_path, 
             data=json.dumps(message_data).encode('utf-8')
         )
-        print(f"Published message to {TOPIC_ID}: {message_data.decode('utf-8')}")
+        print(f"Published message to {TOPIC_ID}: {message_data}")
         
         return render_template('index.html', success=True, name=name, event=event, email=email)
     
