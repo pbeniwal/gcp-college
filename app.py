@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for
 import firebase_admin
 from firebase_admin import firestore
 from google.cloud import pubsub_v1
+import json
 import os
 
 app = Flask(__name__)
@@ -20,21 +21,33 @@ def index():
     if request.method == 'POST':
         name = request.form.get('name')
         event = request.form.get('event')
+        email = request.form.get('email')
         
         # Save to Firestore
         db.collection('registrations').add({
             'name': name,
             'event': event,
+            'email': email,
             'timestamp': firestore.SERVER_TIMESTAMP
         })
         print(f"Saved registration to Firestore: {name} for {event}")
         
         # Publish to Pub/Sub
-        message = f"🎟️ New registration: {name} for {event}".encode('utf-8')
-        publisher.publish(topic_path, data=message)
-        print(f"Published message to {TOPIC_ID}: {message.decode('utf-8')}")
+        # message = f"🎟️ New registration: {name} for {event}".encode('utf-8')
+        # Publish structured JSON message to Pub/Sub (Recommended for future email sender)
+        message_data = {
+            "name": name,
+            "event": event,
+            "email": email
+        }
+        #publisher.publish(topic_path, data=message)
+        publisher.publish(
+            topic_path, 
+            data=json.dumps(message_data).encode('utf-8')
+        )
+        print(f"Published message to {TOPIC_ID}: {message_data.decode('utf-8')}")
         
-        return render_template('index.html', success=True, name=name, event=event)
+        return render_template('index.html', success=True, name=name, event=event, email=email)
     
     return render_template('index.html')
 
