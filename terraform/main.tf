@@ -47,29 +47,29 @@ resource "google_pubsub_subscription" "event_registrations_sub" {
 }
 
 # Service Account for Cloud Run (least privilege)
-#resource "google_service_account" "cloud_run_sa" {
-#  account_id   = "event-app-cloud-run"
-#  display_name = "Service Account for Event App Cloud Run"
-#}
+resource "google_service_account" "cloud_run_sa" {
+  account_id   = "event-app-cloud-run"
+  display_name = "Service Account for Event App Cloud Run"
+}
 
 # IAM Roles for Cloud Run SA
-#resource "google_project_iam_member" "firestore_access" {
-#  project = var.project_id
-#  role    = "roles/datastore.user"
-#  member  = "serviceAccount:${google_service_account.cloud_run_sa.email}"
-#}
+resource "google_project_iam_member" "firestore_access" {
+  project = var.project_id
+  role    = "roles/datastore.user"
+  member  = "serviceAccount:${google_service_account.cloud_run_sa.email}"
+}
 
-#resource "google_project_iam_member" "pubsub_publisher" {
-#  project = var.project_id
-#  role    = "roles/pubsub.publisher"
-#  member  = "serviceAccount:${google_service_account.cloud_run_sa.email}"
-#}
+resource "google_project_iam_member" "pubsub_publisher" {
+  project = var.project_id
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:${google_service_account.cloud_run_sa.email}"
+}
 
-#resource "google_project_iam_member" "pubsub_subscriber" {
-#  project = var.project_id
-#  role    = "roles/pubsub.subscriber"
-#  member  = "serviceAccount:${google_service_account.cloud_run_sa.email}"
-#}
+resource "google_project_iam_member" "pubsub_subscriber" {
+  project = var.project_id
+  role    = "roles/pubsub.subscriber"
+  member  = "serviceAccount:${google_service_account.cloud_run_sa.email}"
+}
 
 # Optional: Cloud Run Service (can be deployed via Terraform too)
 # (Comment out if you prefer Cloud Build deployment)

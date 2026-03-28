@@ -10,6 +10,6 @@ output "pubsub_subscription_name" {
   value = google_pubsub_subscription.event_registrations_sub.name
 }
 
-#output "cloud_run_service_account_email" {
-#  value = google_service_account.cloud_run_sa.email
-#}
+output "cloud_run_service_account_email" {
+  value = google_service_account.cloud_run_sa.email
+}
