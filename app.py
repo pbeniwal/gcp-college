@@ -30,6 +30,7 @@ def index():
         print(f"Saved registration to Firestore: {name} for {event}")
         
         # Publish to Pub/Sub
+        
         message = f"🎟️ New registration: {name} for {event}".encode('utf-8')
         publisher.publish(topic_path, data=message)
         print(f"Published message to {TOPIC_ID}: {message.decode('utf-8')}")
